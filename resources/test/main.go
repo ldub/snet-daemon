@@ -35,7 +35,7 @@ var testConfiguration = []string{
 	"SNET_DAEMON_LISTENING_PORT=5000",
 	"SNET_DAEMON_TYPE=grpc",
 	"SNET_DB_PATH=snetd.db",
-	"SNET_ETHEREUM_JSON_RPC_ENDPOINT=http://127.0.0.1:8545",
+	"SNET_ETHEREUM_JSON_RPC_ENDPOINT=http://127.0.0.1:9545",
 	"SNET_HDWALLET_INDEX=0",
 	"SNET_LOG_LEVEL=5",
 	"SNET_PASSTHROUGH_ENABLED=false",
@@ -54,8 +54,13 @@ func main() {
 	runCommand("", nil, "rm", "-rf", dbPath).Wait()
 	runCommand("", nil, "rm", "-rf", buildPath).Wait()
 
-	runCommand("", nil, "go", "build", "-o", "resources/blockchain/build/snetd",
+	err := runCommand("", nil, "go", "build", "-o", "resources/blockchain/build/snetd",
 		"snetd/snetd.go").Wait()
+
+	if err != nil {
+		log.WithError(err).Error()
+		return
+	}
 
 	runCommand(blockchainPath, nil, "npm", "run", "create-mnemonic").Wait()
 	rawMnemonic, err := ioutil.ReadFile(buildStatePath + "/Mnemonic.json")
@@ -67,7 +72,7 @@ func main() {
 	if err != nil {
 		log.WithError(err).Panic()
 	}
-	ganacheCmd := runCommand(nodePath, nil, "./.bin/ganache-cli", "-m", mFile.Mnemonic)
+	ganacheCmd := runCommand(nodePath, nil, "./.bin/ganache-cli", "-m", mFile.Mnemonic, "--port", "9545")
 	defer ganacheCmd.Process.Wait()
 	defer ganacheCmd.Process.Signal(syscall.SIGTERM)
 	runCommand(blockchainPath, nil, "npm", "run", "migrate").Wait()

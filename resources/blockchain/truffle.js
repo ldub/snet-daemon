@@ -11,6 +11,11 @@ let provider = (endpoint) => {
 
 module.exports = {
     networks: {
+        develop: {
+            host: "127.0.0.1",
+            port: 9545,
+            network_id: "*" // Any network ID
+        },
         local: {
             host: "127.0.0.1",
             port: 8545,

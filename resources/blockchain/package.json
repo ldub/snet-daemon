@@ -9,11 +9,11 @@
     "truffle-hdwallet-provider": "0.0.5"
   },
   "scripts": {
-    "create-mnemonic": "node scripts/createMnemonic.js --network local",
-    "migrate": "node_modules/.bin/truffle migrate --network local",
-    "create-agent": "node_modules/.bin/truffle exec scripts/createAndRegisterAgent.js --network local",
-    "create-job": "node_modules/.bin/truffle exec scripts/createJob.js --network local",
-    "sign-job": "node_modules/.bin/truffle exec scripts/signJobInvocation.js --network local",
-    "fund-job": "node_modules/.bin/truffle exec scripts/fundJob.js --network local"
+    "create-mnemonic": "node scripts/createMnemonic.js --network develop",
+    "migrate": "node_modules/.bin/truffle migrate --network develop",
+    "create-agent": "node_modules/.bin/truffle exec scripts/createAndRegisterAgent.js --network develop",
+    "create-job": "node_modules/.bin/truffle exec scripts/createJob.js --network develop",
+    "sign-job": "node_modules/.bin/truffle exec scripts/signJobInvocation.js --network develop",
+    "fund-job": "node_modules/.bin/truffle exec scripts/fundJob.js --network develop"
   }
 }
